@@ -1,0 +1,45 @@
+arr = [list(map(int, input().split())) for _ in range(19)]
+
+black,white=1,2
+dxs,dys=[1,1,1,0],[-1,0,1,1] // 우측대각선, 하,좌측대각선, 우 
+def in_range(x, y):
+    return 0 <= x and x < 19 and 0 <= y and y < 19
+
+def check(arr):
+    for i in range(19):
+        for j in range(19):
+            if arr[i][j]==0:
+                continue
+            for dx,dy in zip(dxs,dys):
+                cnt=0
+
+                if in_range(i+dx,j+dy)==False:
+                    continue
+                while(1):
+                    if arr[i][j] == arr[i+dx][j+dy]:
+                        i, j = i + dx, j + dy
+                        cnt+=1
+                    else:
+                        break
+                    if (cnt==4):
+                        print(f'{arr[i][j]}')
+                        i,j=i-2*dx+1,j-2*dy+1
+                        print(f'{i} {j}')
+
+                        return 0
+    print('0')
+
+check(arr)
+
+/*** 
+
+1) in_range 함수 -> index 에러를 피하기 위해서 해당 숫자가 배열 인덱스 내에 있는지 확인
+2) 모든 배열을 돌 때 0일 때는 계속 그렇지 않을 때는 for dx,dy in zip (dxs,dys) ->체크할 배열 인덱스 지정 진행
+3) 해당 배열 값과 체크할 배열 값이 같을 경우 같은 방향으로 for 문 반복
+4) 해당 배열 값과 체크할 배열 값이 다를 경우 반복문 탈출 후, 체크할 배열 인덱스 새로 지정
+5) cnt ==4 일 경우 해당 배열 값 출력 후 가운데 행,열 출력
+6) 반복문을 모두 돌았을 때 무승부일 경우 0 출력 
+
+***/
+
+
